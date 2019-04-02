@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include <fstream> 
 using namespace std;
 typedef double(*Tfun)(double);
@@ -14,27 +14,24 @@ public:
 	//constructors
 	Tabulator();//po umolchaniu
 	//inicializators
-	Tabulator::Tabulator(int num, double a_, double b_);//, Tfun fun_
-	/*Tabulator(int num);
-	Tabulator(double a_, double b_);*/
-	//Tabulator::Tabulator(Tfun fun_);
+	Tabulator::Tabulator(int num, double a_, double b_);
 	//COPY
 	Tabulator(const Tabulator &Dr);
 	//Destructor
 	~Tabulator();
 	///////////////////////
-	//работа с потоками
-	friend ostream& operator<<(ostream& stream, const Tabulator &Dr); // вывод 
-	friend istream& operator>>(istream& stream, Tabulator &Dr); // ввод из потока
-	//действия
-	void Tabulator::INTERVAL(double _a, double _b);//задать интервал
+	//СЂР°Р±РѕС‚Р° СЃ РїРѕС‚РѕРєР°РјРё
+	friend ostream& operator<<(ostream& stream, const Tabulator &Dr); // РІС‹РІРѕРґ 
+	friend istream& operator>>(istream& stream, Tabulator &Dr); // РІРІРѕРґ РёР· РїРѕС‚РѕРєР°
+	//РґРµР№СЃС‚РІРёСЏ
+	void Tabulator::INTERVAL(double _a, double _b);//Р·Р°РґР°С‚СЊ РёРЅС‚РµСЂРІР°Р»
 	void Tabulator::Tochki(int _n);
 	double Tabulator::INTER1();
 	double Tabulator::INTER2();
 	int Tabulator::Tochki1();
 	void Tabulator::show(const char* name1, const char* name2);
 	void Tabulator::Tabulirovanie(Tfun _fun);
-	class Range//для обработки исключений
+	class Range//РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё РёСЃРєР»СЋС‡РµРЅРёР№
 	{
 	};
 };

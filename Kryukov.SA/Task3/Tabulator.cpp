@@ -1,4 +1,4 @@
-#include <cmath>
+п»ї#include <cmath>
 #include <clocale>
 #include <iomanip>
 #include <iostream>
@@ -23,7 +23,7 @@ double ff4(double x)
 		return sqrt(x);
 	else
 	{
-		cout << "введено не корректное значение" << endl;
+		cout << "РІРІРµРґРµРЅРѕ РЅРµ РєРѕСЂСЂРµРєС‚РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ" << endl;
 		abort();
 	}
 }
@@ -35,7 +35,7 @@ Tabulator::Tabulator()//po umolchaniu
 }
 //inicializators
 Tabulator::Tabulator(int num, double a_, double b_)
-{a = a_;
+{	a = a_;
 	b = b_;
 	n = num;
 	f = new double[n];
@@ -68,11 +68,11 @@ Tabulator::~Tabulator()//Destructor
 	b = 0;
 	n = 0;
 }
-// вывод в поток 
+// РІС‹РІРѕРґ РІ РїРѕС‚РѕРє 
 ostream& operator<<(ostream& stream, const Tabulator &Dr)
 {
 	//stream << Dr.a << Dr.b << " ";
-	stream << Dr.n << " ";//количество точек табулирования
+	stream << Dr.n << " ";//РєРѕР»РёС‡РµСЃС‚РІРѕ С‚РѕС‡РµРє С‚Р°Р±СѓР»РёСЂРѕРІР°РЅРёСЏ
 	for (int i = 0; i < Dr.n; i++)
 	{
 		stream << Dr.X[i] << " ";
@@ -85,7 +85,7 @@ ostream& operator<<(ostream& stream, const Tabulator &Dr)
 	stream << endl;
 	return stream;
 }
-//ввод в поток
+//РІРІРѕРґ РІ РїРѕС‚РѕРє
 istream& operator>>(istream& stream, Tabulator &Dr)
 {
 	int str;
@@ -114,7 +114,7 @@ istream& operator>>(istream& stream, Tabulator &Dr)
 	}
 	return stream;
 }
-//задать интервал 
+//Р·Р°РґР°С‚СЊ РёРЅС‚РµСЂРІР°Р» 
 void Tabulator::INTERVAL(double _a, double _b)
 {
 	a = _a; b = _b;
@@ -163,10 +163,10 @@ void Tabulator::show(const char* name1, const char* name2)
 {
 	cout << name1 << ": ";
 	for (int i = 0; i < n; i++)
-		cout<< setw(10) << X[i]<<"|" << "\t";//табуляция
+		cout<< setw(10) << X[i]<<"|" << "\t";//С‚Р°Р±СѓР»СЏС†РёСЏ
 	cout << "\n_____________________________________________________________________________________________________" << endl;
 	cout << name2 << ": ";
 	for (int i = 0; i < n; i++)
-		cout << setw(10) << f[i]<<"|" << "\t";//табуляция
+		cout << setw(10) << f[i]<<"|" << "\t";//С‚Р°Р±СѓР»СЏС†РёСЏ
 cout << endl;
 }
