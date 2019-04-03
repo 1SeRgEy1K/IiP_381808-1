@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <iostream>
 #include "Shagomer.h"
-#include "Date.h"
+#include <utility>
 //opisanie/////////////////////////////////////////////////////////////////////////////////////
 using namespace std;
 Pedometer::Pedometer(){//по умолчанию
@@ -17,9 +17,10 @@ Pedometer::Pedometer(){//по умолчанию
     Mend = NULL;//минута конца
     bufsize=0;//макс число подсчетов
     leng=0;//текущее число подсчетов
+	y_st = m_st = d_st = h_st = min_st = 0;
 }
-Pedometer::Pedometer(int bufsize_, int leng_){//инициализатор
-	leng = leng_;
+Pedometer::Pedometer(int bufsize_){//инициализатор
+	leng = 0;
 	bufsize = bufsize_;
 	if (leng <= bufsize) {
 		pedo = new int[bufsize];
@@ -34,9 +35,21 @@ Pedometer::Pedometer(int bufsize_, int leng_){//инициализатор
 	else
 		throw Range();
 }
+Pedometer::Pedometer(int Y_st, int M_st, int D_st, int H_st, int MIN_st) {
+	y_st = Y_st;
+	m_st = M_st;
+	d_st = D_st;
+	h_st = H_st;
+	min_st = MIN_st;
+}
 Pedometer::Pedometer(const Pedometer &Dr){//копирование
 	bufsize = Dr.bufsize;
 	leng = Dr.leng;
+	y_st = Dr.y_st;
+	m_st = Dr.m_st;
+	d_st = Dr.d_st;
+	h_st =Dr.h_st;
+	min_st = Dr.min_st;
 	pedo = new int[bufsize];
 	Y = new int[bufsize];
 	mon = new int[bufsize];
@@ -45,7 +58,7 @@ Pedometer::Pedometer(const Pedometer &Dr){//копирование
 	Mstar = new int[bufsize];
 	Hend = new int[bufsize];
 	Mend = new int[bufsize];
-	for (int i = 0; i < bufsize; i++){
+	for (int i = 0; i < leng; i++){
 		pedo[i] = Dr.pedo[i];
 		Y[i] = Dr.Y[i];
 		mon[i] = Dr.mon[i];
@@ -55,12 +68,15 @@ Pedometer::Pedometer(const Pedometer &Dr){//копирование
 		Hstar[i] = Dr.Hstar[i];
 		Mstar[i] = Dr.Mstar[i];
 	}
-	
-
 }
 Pedometer::~Pedometer(){
 	leng = 0;
 	bufsize = 0;
+	y_st = 0;
+	m_st = 0;
+	d_st = 0;
+	h_st = 0;
+	min_st = 0;
 	if (pedo != NULL) {
 		delete[] pedo;
 		pedo = NULL;
@@ -96,38 +112,75 @@ Pedometer::~Pedometer(){
 		Mend = NULL;
 	}
 }
+//узнать начальные дату и время
+void Pedometer::DateSTART(int &Yst, int &Mst, int &Dst, int &Hst, int &Minst) {
+	y_st = Yst;
+	m_st = Mst;
+	d_st = Dst;
+	h_st = Hst;
+	min_st = Minst;
+}
 //добавить подсчет
-void Pedometer::newPodschet(int y, int m, int d, int Hs, int Ms, int He, int Me, int ped ) {
-	
-	if (leng <= bufsize && m < 13 && m>0 && d > 0 && d < 32 && Hs >= 0 && Hs < 24 && Ms >= 0 && Ms < 60 && He >= 0 && He < 24 && Me >= 0 && Me < 60 && ped >= 0)
-	{
-
-		for (int i = leng; i < leng + 1; i++)
+void Pedometer::newPodschet(int y, int m, int d, int Hs, int Ms, int He, int Me, int ped) {
+	if (leng < bufsize && m < 13 && m>0 && d > 0 && d < 32 && Hs >= 0 && Hs < 24 && Ms >= 0 && Ms < 60 && He >= 0 && He < 24 && Me >= 0 && Me < 60 && ped >= 0)
 		{
-			Y[i] = y;
-			mon[i] = m;
-			Day[i] = d;
-			Hstar[i] = Hs;
-			Mstar[i] = Ms;
-			Hend[i] = He;
-			Mend[i] = Me;
-			pedo[i] = ped;
-
+			if (leng == 0) {
+				Y[leng] = y_st;
+				mon[leng] = m_st;
+				Day[leng] = d_st;
+				Hstar[leng] = h_st;
+				Mstar[leng] = min_st;
+				Hend[leng] = He;
+				Mend[leng] = Me;
+				pedo[leng] = ped;
+			}
+			else  {
+				Y[leng] = y;
+				mon[leng] = m;
+				Day[leng] = d;
+				Hstar[leng] = Hs;
+				Mstar[leng] = Ms;
+				Hend[leng] = He;
+				Mend[leng] = Me;
+				pedo[leng] = ped;
+				}
+			
+			leng++;
 		}
-		leng++;
-	}
-	else
-		throw Range();
+	else if (leng == bufsize && m < 13 && m>0 && d > 0 && d < 32 && Hs >= 0 && Hs < 24 && Ms >= 0 && Ms < 60 && He >= 0 && He < 24 && Me >= 0 && Me < 60 && ped >= 0){
+		bufsize++;
+			if (leng == 0) {
+				Y[leng] = y_st;
+				mon[leng] = m_st;
+				Day[leng] = d_st;
+				Hstar[leng] = h_st;
+				Mstar[leng] = min_st;
+				Hend[leng] = He;
+				Mend[leng] = Me;
+				pedo[leng] = ped;
+				}
+			else  {
+				Y[leng] = y;
+				mon[leng] = m;
+				Day[leng] = d;
+				Hstar[leng] = Hs;
+				Mstar[leng] = Ms;
+				Hend[leng] = He;
+				Mend[leng] = Me;
+				pedo[leng] = ped;
+				}
+			leng++;
+		}
 }
 //получить информ о нужном подсчете 
 int Pedometer::getInf (int y, int m, int d, int Hs, int Ms, int He, int Me) {
-	for(int i =0; i <leng; i++)
-		if (y == Y[i] && m == mon[i] && d == Day[i] && Hs == Hstar[i] && Ms == Mstar[i] && He == Hend[i] && Me == Mend[i])
+	for(int i=0; i <leng; i++)
+		if ((y == Y[i] || y ==y_st) && ( m == mon[i]|| m == m_st )&& (d == Day[i]||d==d_st) &&( Hs == Hstar[i]||Hs == h_st) && (Ms == Mstar[i] || Ms ==min_st) && He == Hend[i] && Me == Mend[i])
 		{
 			return pedo[i];
 		}
 		else 
-			throw Range();
+			return -1;
 }
 //cреднее число шагов в выбранном месяце
 int Pedometer::AveregePedoMonth(int Mon){
@@ -188,33 +241,18 @@ int Pedometer::MaxPedoHistory() {
 	return PEDO;
 }
 //дата
-int Pedometer::DateMaxPedoM() {
-	int num;
+void Pedometer::DateMaxPedo(int &d, int&m) {
 	int PEDO = 0;
-	for (int i = 0; i <leng; i++)
-		if (pedo[i] > PEDO)
-		{
-			PEDO = pedo[i];
-			num = mon[i];
-		}
-	return num;
-
-}
-int Pedometer::DateMaxPedoD() {
-	int num;
-	int PEDO = 0;
-	for (int i = 0; i <leng; i++)
-		if (pedo[i] > PEDO)
-		{
-			PEDO = pedo[i];
-			num = Day[i];
-		}
-	return num;
-
+	for (int i = 0; i < leng; i++)
+				if (pedo[i] > PEDO)
+				{
+			  	   PEDO = pedo[i];
+					m = mon[i];
+					d = Day[i];
+				}
 }
 ostream& operator<<(ostream& stream, const Pedometer &Dr) {
-	stream << Dr.leng << " " << Dr.bufsize << " ";
-	
+	stream << Dr.leng << " " << Dr.bufsize << " " << Dr.y_st << " " << Dr.d_st << " " << Dr.m_st<< " " << Dr.min_st<< " " <<Dr.h_st<< " ";
 	for (int i = 0; i < Dr.leng; i++)
 	{
 		stream << Dr.Y[i] << " ";
@@ -233,55 +271,26 @@ istream& operator>>(istream& stream, Pedometer &Dr)
 {
 	int str;
 	stream >> str;
-	if (Dr.bufsize != str){
-		if (Dr.Y != NULL)
-			delete[] Dr.Y;
+	if (Dr.bufsize<str){
+	delete[] Dr.Day;
+	delete[] Dr.mon;	
+	delete[] Dr.Hend;
+	delete[] Dr.Hstar;
+	delete[] Dr.Mstar;
+	delete[] Dr.Mend;
+	delete[] Dr.pedo;
+	delete[] Dr.Y;
 		Dr.bufsize = str;
 		Dr.Y = new int[str];
-	}
-	if (Dr.bufsize != str){
-		if (Dr.Day != NULL)
-			delete[] Dr.Day;
-		Dr.bufsize = str;
 		Dr.Day = new int[str];
-	}
-	if (Dr.bufsize != str){
-		if (Dr.mon != NULL)
-			delete[] Dr.mon;
-		Dr.bufsize = str;
 		Dr.mon = new int[str];
-	}	
-	if (Dr.bufsize != str){
-		if (Dr.Hend != NULL)
-			delete[] Dr.Hend;
-		Dr.bufsize = str;
 		Dr.Hend = new int[str];
-	}
-	if (Dr.bufsize != str){
-		if (Dr.Hstar != NULL)
-			delete[] Dr.Hstar;
-		Dr.bufsize = str;
 		Dr.Hstar = new int[str];
-	}
-	if (Dr.bufsize != str) {
-		if (Dr.Mstar != NULL)
-			delete[] Dr.Mstar;
-		Dr.bufsize = str;
+		Dr.Mend = new int[str]; 
 		Dr.Mstar = new int[str];
-	}
-	if (Dr.bufsize != str) {
-		if (Dr.Mend != NULL)
-			delete[] Dr.Mend;
-		Dr.bufsize = str;
-		Dr.Mend = new int[str];
-	}
-	if (Dr.bufsize != str) {
-		if (Dr.pedo != NULL)
-			delete[] Dr.pedo;
-		Dr.bufsize = str;
 		Dr.pedo = new int[str];
 	}
-	for (int i = 0; i < Dr.bufsize; i++){
+	for (int i = 0; i <=Dr.bufsize; i++){
 		stream >> Dr.Y[i];
 		stream >> Dr.mon[i];
 		stream >> Dr.Day[i];

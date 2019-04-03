@@ -13,15 +13,16 @@ int main()
 	int M1 = 10;
 	int Y1 = 1950;
 	int D1 = 24;
-	Pedometer B(100, 0);
-	
+	int H1 = 10;
+	int MIN1 = 10;
+	Pedometer B(100);
+	Pedometer A(Y1, M1, D1, H1, MIN1);
 	try {
-		B.newPodschet(1950, 10, 24, 10, 10, 11, 11, 3000);
+		B.newPodschet(1950, 10, 24, 10, 10, 11, 10, 3000);
 		B.newPodschet(1950, 10, 25, 10, 10, 11, 11, 4000);
 		B.newPodschet(1950, 10, 26, 10, 10, 11, 11, 5000);
 		B.newPodschet(1950, 11, 26, 10, 10, 11, 11, 7000);
 		B.newPodschet(1950, 12, 26, 10, 10, 11, 11, 2000);
-		Date A1(Y1, M1, D1);//также это и начальное 
 		int menu;
 		cout << "1 узнать начальные дату и время посчетов" << endl;
 		cout << "2 добавить подсчет" << endl;
@@ -30,40 +31,45 @@ int main()
 		cout << "5 среднее число шагов за всю историю наблюдений" << endl;
 		cout << "6 максимальное число шагов в выбранный месяц и дата" << endl;
 		cout << "7 максимальное число шагов в день за всю историю наблюдений и дата" << endl;
-		cin >> menu;
-		switch (menu)
-		{
-		case 1: {
-			cout << A1.StartD() << '.' << A1.StartM() << '.' << A1.StartY() << endl;
-			break;
-		}
-		case 2: {
-			B.newPodschet(1950, 11, 25, 10, 10, 11, 11, 1000);
-			break;
-		}
-		case 3: {
-			cout << B.getInf(1950, 10, 24, 10, 10, 11, 11) << endl;
-			break;
-		}
-		case 4: {
-			cout << B.AveregePedoMonth(10)<< endl;
-			break;
-		}
-		case 5: {
-			cout << B.AveregePedoHistory()<< endl;
-			break;
-		}
-		case 6: {
-			cout << B.MaxPedoMonth(10) << endl;
-			cout<<B.DateMaxPedoMon(10)<<endl;
-			break;
-		}
-		case 7: {
-			cout <<B.MaxPedoHistory()<<endl;
-			cout<<B.DateMaxPedoM()<<endl;
-			cout<<B.DateMaxPedoD()<<endl;
-			break;
-		}
+		cout << "8 завершить работу" << endl;
+		while (true) {
+			cin >> menu;
+			switch (menu)
+			{
+			case 1: {
+				A.DateSTART(Y1, M1, D1, H1, MIN1);
+				cout <<  "дата начала " << Y1 << '.' <<M1 << '.' <<D1<< "время " <<H1<<":"<<MIN1<< endl;
+				break;
+			}
+			case 2: {
+				B.newPodschet(1950, 11, 25, 10, 10, 11, 11, 10000);
+				break;
+			}
+			case 3: {
+				cout << B.getInf(1950, 10, 24, 10, 10, 11, 10) << endl;
+				break;
+			}
+			case 4: {
+				cout << B.AveregePedoMonth(10) << endl;
+				break;
+			}
+			case 5: {
+				cout << B.AveregePedoHistory() << endl;
+				break;
+			}
+			case 6: {
+				cout << B.MaxPedoMonth(10)<<"day" << B.DateMaxPedoMon(10)<<endl;
+				break;
+			}
+			case 7: {int D, M;
+				B.DateMaxPedo(D, M);
+				cout << B.MaxPedoHistory() << " date " << D << "." << M << endl;
+				break;
+			}
+			case 8: {
+				return 0;
+			}
+			}
 		}
 		ofstream os; // поток для записи
 		os.open("Pedomet.txt"); // файл для записи
