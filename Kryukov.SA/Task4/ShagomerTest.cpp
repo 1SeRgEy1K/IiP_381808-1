@@ -13,10 +13,8 @@ int main()
 	int M1 = 10;
 	int Y1 = 1950;
 	int D1 = 24;
-	int H1 = 10;
-	int MIN1 = 10;
 	Pedometer B(100);
-	Pedometer A(Y1, M1, D1, H1, MIN1);
+	Pedometer A(Y1, M1, D1);
 	try {
 		B.newPodschet(1950, 10, 24, 10, 10, 11, 10, 3000);
 		B.newPodschet(1950, 10, 25, 10, 10, 11, 11, 4000);
@@ -24,7 +22,7 @@ int main()
 		B.newPodschet(1950, 11, 26, 10, 10, 11, 11, 7000);
 		B.newPodschet(1950, 12, 26, 10, 10, 11, 11, 2000);
 		int menu;
-		cout << "1 узнать начальные дату и время посчетов" << endl;
+		cout << "1 узнать начальную дату посчетов" << endl;
 		cout << "2 добавить подсчет" << endl;
 		cout << "3 получить информацию о подсчете по дате и интервалу времени" << endl;
 		cout << "4 среднее число шагов в выбранном месяце" << endl;
@@ -37,8 +35,8 @@ int main()
 			switch (menu)
 			{
 			case 1: {
-				A.DateSTART(Y1, M1, D1, H1, MIN1);
-				cout <<  "дата начала " << Y1 << '.' <<M1 << '.' <<D1<< "время " <<H1<<":"<<MIN1<< endl;
+				A.DateSTART(Y1, M1, D1);
+				cout <<  "дата начала " << Y1 << '.' <<M1 << '.' <<D1<< endl;
 				break;
 			}
 			case 2: {
@@ -61,9 +59,9 @@ int main()
 				cout << B.MaxPedoMonth(10)<<"day" << B.DateMaxPedoMon(10)<<endl;
 				break;
 			}
-			case 7: {int D, M;
-				B.DateMaxPedo(D, M);
-				cout << B.MaxPedoHistory() << " date " << D << "." << M << endl;
+			case 7: {int D, M, Year;
+				B.DateMaxPedo(Year, D, M);
+				cout << B.MaxPedoHistory() << " date " << D << "." << M << "." << Year << endl;
 				break;
 			}
 			case 8: {
