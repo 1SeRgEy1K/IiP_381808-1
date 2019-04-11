@@ -36,10 +36,9 @@ Pedometer::Pedometer(int bufsize_){//инициализатор
 		throw Range();
 }
 Pedometer::Pedometer(int Y_st, int M_st, int D_st) {
-     Y_st=y_st;
-     M_st =m_st;
-	 D_st=d_st;
-	
+	y_st = Y_st;
+	m_st = M_st;
+	d_st = D_st;
 }
 Pedometer::Pedometer(const Pedometer &Dr){//копирование
 	bufsize = Dr.bufsize;
@@ -109,9 +108,9 @@ Pedometer::~Pedometer(){
 }
 //узнать начальные дату и время
 void Pedometer::DateSTART(int &Yst, int &Mst, int &Dst) {
-	y_st = Yst;
-	m_st = Mst;
-	d_st = Dst;
+	 Yst =y_st;
+	 Mst =m_st;
+	 Dst= d_st;
 }
 //добавить подсчет
 void Pedometer::newPodschet(int y, int m, int d, int Hs, int Ms, int He, int Me, int ped) {
@@ -127,7 +126,7 @@ void Pedometer::newPodschet(int y, int m, int d, int Hs, int Ms, int He, int Me,
 				Mend[leng] = Me;
 				pedo[leng] = ped;
 			}
-			else if (leng != 0) {
+			else if (leng > 0) {
 				Y[leng] = y;
 				mon[leng] = m;
 				Day[leng] = d;
@@ -158,7 +157,6 @@ void Pedometer::newPodschet(int y, int m, int d, int Hs, int Ms, int He, int Me,
 		Mend2 = new int[bufsize];
 		Mstar2 = new int[bufsize];
 		pedo2 = new int[bufsize];
-		
 		for (int i = 0; i < leng; i++)
 		{
 			Y2[i] = Y[i];
@@ -196,7 +194,7 @@ void Pedometer::newPodschet(int y, int m, int d, int Hs, int Ms, int He, int Me,
 				Mend[leng] = Me;
 				pedo[leng] = ped;
 				}
-			else if (leng != 0) {
+			else if (leng > 0) {
 				Y[leng] = y;
 				mon[leng] = m;
 				Day[leng] = d;
@@ -210,11 +208,14 @@ void Pedometer::newPodschet(int y, int m, int d, int Hs, int Ms, int He, int Me,
 		}
 }
 //получить информ о нужном подсчете 
-int Pedometer::getInf (int y, int m, int d, int Hs, int Ms, int He, int Me) {
+
+int Pedometer::getInf(int y, int m, int d, int Hs, int Ms, int He, int Me) {
 	for (int i = 0; i < leng; i++)
-		if ((y == Y[i] || y ==y_st) && ( m == mon[i]|| m == m_st )&& (d == Day[i]||d==d_st) && Hs == Hstar[i] && Ms == Mstar[i]  && He == Hend[i] && Me == Mend[i])
+		if ((y == Y[i] || y == y_st) && (m == mon[i] || m == m_st) && (d == Day[i] || d == d_st) && Hs == Hstar[i] && Ms == Mstar[i] && He == Hend[i] && Me == Mend[i])
+		
+		
 			return pedo[i];
-		else
+		
 			return -1;
 	
 }

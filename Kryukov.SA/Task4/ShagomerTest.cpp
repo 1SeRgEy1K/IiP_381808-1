@@ -34,9 +34,9 @@ int main()
 			cin >> menu;
 			switch (menu)
 			{
-			case 1: {
-				A.DateSTART(Y1, M1, D1);
-				cout <<  "дата начала " << Y1 << '.' <<M1 << '.' <<D1<< endl;
+			case 1: { int Ye, M, D;
+				A.DateSTART(Ye, M, D);
+				cout <<  "дата начала " << Ye << '.' <<M << '.' <<D<< endl;
 				break;
 			}
 			case 2: {
@@ -44,7 +44,7 @@ int main()
 				break;
 			}
 			case 3: {
-				cout << B.getInf(1950, 10, 24, 10, 10, 11, 10) << endl;
+				cout << B.getInf(1950, 10, 25, 10, 10, 11, 11) << endl;
 				break;
 			}
 			case 4: {
