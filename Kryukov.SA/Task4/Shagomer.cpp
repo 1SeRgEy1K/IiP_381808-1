@@ -327,7 +327,7 @@ istream& operator>>(istream& stream, Pedometer &Dr)
 		Dr.Mstar = new int[str];
 		Dr.pedo = new int[str];
 	}
-	for (int i = 0; i <=Dr.bufsize; i++){
+	for (int i = 0; i <Dr.bufsize; i++){
 		stream >> Dr.Y[i];
 		stream >> Dr.mon[i];
 		stream >> Dr.Day[i];
